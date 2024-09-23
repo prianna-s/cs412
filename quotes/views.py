@@ -22,14 +22,14 @@ def quote(request):
         'quote': selected_quote,
         'image': selected_image
     }
-    return render(request, 'quote.html', context)
+    return render(request, 'quotes/quote.html', context)
 
 def show_all(request):
     context = {
         'quotes': quotes_list,
         'images': images_list
     }
-    return render(request, 'show_all.html', context)
+    return render(request, 'quotes/show_all.html', context)
 
 def about(request):
     context = {
@@ -37,4 +37,4 @@ def about(request):
         'biography': 'Susan Lee Sontag was an American writer, critic, and public intellectual. She mostly wrote essays, but also published novels; she published her first major work, the essay "Notes on Camp", in 1964',
         'creator_note': 'Created by Prianna Sharan.'
     }
-    return render(request, 'about.html', context)
+    return render(request, 'quotes/about.html', context)
