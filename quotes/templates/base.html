@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="en">
+<head class="container">
+    <meta charset="UTF-8">
+    <title>Susan Sontag Quotes</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+
+
+<body class="container">
+    
+    <header>
+        <h1 class="title">Susan Sontag Quotes</h1>
+        <nav>
+            <a href="{% url 'quote' %}">Home</a>
+            <a href="{% url 'show_all' %}">Show All</a>
+            <a href="{% url 'about' %}">About</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

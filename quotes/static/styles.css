@@ -1,0 +1,79 @@
+body {
+    background-color: white;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    align-items: flex-start; /* Align items to the top */
+}
+
+
+h1 {
+    
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+div {
+    color: #d43f85;
+    border: 2px solid darkblue;
+    padding: 10px;
+    margin: 25px;
+    
+}
+
+table {
+    border: 1px solid white;
+}
+
+td {
+    border: 1px solid white;
+    text-align: center;
+}
+
+nav {
+    background-color: darkblue; /* Soft pink for the nav background */
+    padding: 15px;
+    width: 200px;
+    height: 100vh;
+    font-size: 18px;
+    text-align: left;
+}
+
+.title{
+    color: darkblue;
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+nav a {
+    display: block;
+    color: darkblue; /* White for text on pink background */
+    text-decoration: none;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #ffd7eb; /* Bright pink for links */
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    width: 600px; /* Fixed width for uniformity */
+    border-radius: 10px;
+    margin-top: 20px;
+    align-self: center;
+}
+
+.quote {
+    font-size: 24px;
+    color: #d43f85;
+    margin: 20px 10px;
+    text-align: center;
+    font-style: italic;
+}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <h1>All Quotes by Susan Sontag</h1>
+</div>
+<div>
+    <ul>
+        {% for quote in quotes %}
+            <li>{{ quote }}</li>
+        {% endfor %}
+    </ul>
+</div>
+<div>
+    <h1>All Images</h1>
+</div>
+<div>
+    <ul>
+        {% for image in images %}
+            <li><img src="{{ image }}" alt="Image of Susan Sontag"></li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
