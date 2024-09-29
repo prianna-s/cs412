@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-130$k4$+wa@m9s^cjp^k&dut_hbg)o29txi(!#ekegr8r@nl5f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['susan-sontag-app-2d5b6f87411e.herokuapp.com', 'localhost',]
+ALLOWED_HOSTS = ['susan-sontag-app-2d5b6f87411e.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'quotes',
+    'restaurant',
 ]
 
 MIDDLEWARE = [
@@ -107,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/New_York'  # Replace with your correct timezone
 
 USE_I18N = True
 
@@ -117,7 +118,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/' 
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # This tells Django where the static folder is at the project level
+]
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 

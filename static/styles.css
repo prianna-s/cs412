@@ -1,79 +1,200 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Base Styles */
 body {
-    background-color: white;
+    font-family: 'Lucida Console', monospace;
+    background-color: #e6f7ff; /* Light Blue */
+    color: #4f3a2d; /* Coffee Brown */
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
 }
 
-.container {
+/* Header Styling */
+header {
+    background-color: #4f3a2d; /* Dark Coffee Brown */
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Navigation Bar */
+nav ul {
     display: flex;
-    flex-direction: row;
-    padding: 20px;
-    align-items: flex-start; /* Align items to the top */
+    justify-content: center;
+    list-style: none;
+    margin-top: 1rem;
 }
 
-
-h1 {
-    
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
+nav ul li {
+    margin: 0 15px;
 }
 
-div {
-    color: #d43f85;
-    border: 2px solid darkblue;
-    padding: 10px;
-    margin: 25px;
-    
-}
-
-table {
-    border: 1px solid white;
-}
-
-td {
-    border: 1px solid white;
-    text-align: center;
-}
-
-nav {
-    background-color: darkblue; /* Soft pink for the nav background */
-    padding: 15px;
-    width: 200px;
-    height: 100vh;
-    font-size: 18px;
-    text-align: left;
-}
-
-.title{
-    color: darkblue;
-    font-size: 36px;
-    margin-bottom: 20px;
-    text-align: center;
-    width: 100%;
-}
-
-nav a {
-    display: block;
-    color: darkblue; /* White for text on pink background */
+nav ul li a {
+    color: white;
     text-decoration: none;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: #ffd7eb; /* Bright pink for links */
+    font-weight: 400;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
-    width: 600px; /* Fixed width for uniformity */
-    border-radius: 10px;
-    margin-top: 20px;
-    align-self: center;
+nav ul li a:hover {
+    background-color: #d8a15f; /* Light Coffee Brown */
 }
 
-.quote {
-    font-size: 24px;
-    color: #d43f85;
-    margin: 20px 10px;
+/* General Layout */
+h2 {
+    color: #4f3a2d; /* Dark Coffee Brown */
+    font-size: 2rem;
+    margin: 20px 0;
     text-align: center;
-    font-style: italic;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+p, ul, li {
+    margin: 15px 0;
+    font-size: 1.1rem;
+}
+
+/* Form Styling */
+form {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #ffffff; /* White */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form input[type="text"], form input[type="email"], form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    background-color: #f0ece3; /* Light Cream */
+    transition: background 0.3s ease;
+}
+
+form textarea {
+    height: 100px;
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4f3a2d; /* Dark Coffee Brown */
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+form button:hover {
+    background-color: #d8a15f; /* Light Coffee Brown */
+}
+
+/* Footer Styling */
+footer {
+    background-color: #4f3a2d;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 40px;
+    font-size: 0.9rem;
+}
+
+/* Image Styling */
+img {
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Additional Styling for Cool Cafe Vibe */
+.card {
+    background-color: #f7e7ce; /* Light Cafe Cream */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Buttons for Navigation or Calls-to-Action */
+.btn {
+    background-color: #4f3a2d; /* Dark Coffee Brown */
+    color: white;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    display: inline-block;
+    margin: 20px 0;
+}
+
+.btn:hover {
+    background-color: #d8a15f; /* Light Coffee Brown */
+}
+
+/* Add Smooth Transition for Link Hover */
+a {
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #4f3a2d;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    form, .card {
+        padding: 15px;
+        margin: 15px 10px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin-bottom: 10px;
+    }
 }
