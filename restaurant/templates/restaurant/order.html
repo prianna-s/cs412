@@ -5,6 +5,10 @@
     <form action="{% url 'confirmation' %}" method="POST">
         {% csrf_token %}
         <p><strong>Daily Special: {{ daily_special }}</strong></p>
+        <label>
+            <input type="checkbox" name="items" value="{{ daily_special }}">
+            {{ daily_special }} - $10
+        </label>
         {% for item in menu_items %}
             <label>
                 <input type="checkbox" name="items" value="{{ item.name }}">

@@ -4,7 +4,10 @@ import random
 from datetime import datetime, timedelta
 
 # Daily special options
-daily_specials = ["Pizza Margherita", "BBQ Burger", "Sushi Platter", "Pasta Alfredo"]
+daily_specials = ["Pizza Margherita", 
+                  "BBQ Burger", 
+                  "Sushi Platter", 
+                  "Pasta Alfredo"]
 
 # Main page view
 def main(request):
@@ -49,6 +52,9 @@ def confirmation(request):
             if item in MENU_ITEMS:
                 ordered_items.append(item)
                 total_price += MENU_ITEMS[item]  # Add the price of each selected item
+            if item in daily_specials:
+                ordered_items.append(item)
+                total_price += 10
 
         # Generate a random pickup time between 30 and 60 minutes from the current time
         random_minutes = random.randint(30, 60)
