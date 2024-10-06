@@ -1,0 +1,54 @@
+/* Add this CSS to your linked CSS file or inside a <style> tag in your base.html file */
+
+header {
+    text-align: center;
+    padding: 20px 0;
+    background-color: lightblue;
+}
+
+/* Styling the main title */
+header h1 {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Container for the profile cards */
+.profile-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 20px; /* Adds spacing between the profile cards */
+    margin: 50px 0;
+}
+
+/* Individual profile card */
+.profile-card {
+    text-align: center;
+    width: 200px; /* Set a width for each profile card */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile image styling */
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%; /* Makes the image round */
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+/* Name and city styling */
+.profile-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.profile-city {
+    color: #555;
+    font-size: 0.9em;
+}
