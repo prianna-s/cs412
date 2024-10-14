@@ -25,6 +25,8 @@
             <li>No status messages available.</li>
         {% endfor %}
     </ul>
-    
+
     <a href="{% url 'show_all_profiles' %}">Back to all profiles</a>
+    <a href="{% url 'create_status' profile.pk %}">Post a Status</a>
+
 {% endblock %}
