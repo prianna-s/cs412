@@ -21,9 +21,13 @@
             <li>
                 <strong>{{ status.timestamp|date:"M d, Y H:i" }}:</strong> {{ status.message }}
             </li>
+            {% for image in status.get_images %}
+                <img src='{{image.image_file.url}}' alt='{{image.image_file.url}}'>
+            {% endfor %}
         {% empty %}
             <li>No status messages available.</li>
         {% endfor %}
+        
     </ul>
 
     <a href="{% url 'show_all_profiles' %}">Back to all profiles</a>

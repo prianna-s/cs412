@@ -2,8 +2,6 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 
-# Create your models here.
-
 class Profile(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -26,5 +24,15 @@ class StatusMessage(models.Model):
     profile = models.ForeignKey('Profile', on_delete=models.CASCADE, related_name='status_messages')
 
     def __str__(self):
-        # Access first_name and last_name through the related profile object
         return f"{self.profile.first_name} {self.profile.last_name} - {self.message[:20]} ({self.timestamp})"
+    
+    def get_images(self):
+        return self.images.all().order_by('-timestamp')
+
+class Image(models.Model):
+    image_file = models.ImageField()
+    status_message = models.ForeignKey('StatusMessage', on_delete=models.CASCADE, related_name='images')
+    timestamp = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Image for {self.status_message.profile.first_name} {self.status_message.profile.last_name} ({self.timestamp})"
