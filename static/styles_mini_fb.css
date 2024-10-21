@@ -32,6 +32,99 @@ header h1 {
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.profile-header-container {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+}
+.profile-header-right {
+    flex: 1;
+}
+.profile-header-left {
+    margin-right: 30px;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 10px;
+}
+.profile-actions a {
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: lightblue;
+    color: rgb(0, 0, 0);
+    transition: background-color 0.3s ease;
+}
+
+.status-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.status-actions a {
+    text-decoration: none;
+    font-size: 1em;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: lightblue;
+    color: rgb(0, 0, 0);
+    
+    transition: background-color 0.3s ease;
+}
+
+.nav-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.nav-actions a {
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    transition: background-color 0.3s ease;
+}
+
+
+
+.btn-back {
+    background-color: #d3d3d3;
+    color: #333;
+}
+
+.btn-back:hover {
+    background-color: #c1c1c1;
+}
+
+.divider {
+    border: none;
+    border-top: 2px solid #ddd;
+    margin: 20px 0;
+}
+
+.profile-actions a:hover {
+    background-color: rgb(81, 200, 240);
+}
+
 /* Profile image styling */
 .profile-image {
     width: 100px;
@@ -44,12 +137,15 @@ header h1 {
 .profile-image-large {
     width: 200px;
     height: 200px;
-    
+    border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-
+.profile-header-right h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
 /* Name and city styling */
 .profile-name {
     font-size: 1.2em;
@@ -60,4 +156,54 @@ header h1 {
 .profile-city {
     color: #555;
     font-size: 0.9em;
+}
+
+/* Status messages container */
+.status-messages-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual status message */
+.status-message {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.status-header {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.status-message p {
+    font-size: 1em;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+/* Status images */
+.status-images {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.status-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.no-status {
+    font-size: 1em;
+    color: #777;
+    margin-top: 20px;
 }
