@@ -207,3 +207,34 @@ header h1 {
     color: #777;
     margin-top: 20px;
 }
+
+.no-friends {
+    font-size: 1em;
+    color: #777;
+    margin-top: 20px;
+}
+
+.friends-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 20px; /* Adds spacing between the profile cards */
+    margin: 50px 0;
+}
+
+.friend {
+    display: flex;
+    flex-direction: column;  /* This will stack children vertically */
+    align-items: center;  
+    text-align: center;
+    width: 200px; /* Set a width for each profile card */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}

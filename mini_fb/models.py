@@ -17,6 +17,35 @@ class Profile(models.Model):
     
     def get_absolute_url(self):
         return reverse('show_profile', kwargs={'pk': self.pk})
+    
+    def get_friends(self):
+        # Find all friendships where this profile is either profile1 or profile2
+        friends_as_1 = Friend.objects.filter(profile1=self).values_list('profile2', flat=True)
+        friends_as_2 = Friend.objects.filter(profile2=self).values_list('profile1', flat=True)
+        
+        # Combine both querysets and get the actual Profile objects
+        friend_ids = list(friends_as_1) + list(friends_as_2)
+        return Profile.objects.filter(id__in=friend_ids)
+    
+    def add_friend(self, other):
+        if other not in self.get_friends() and self != other:
+            Friend.objects.create(profile1=self, profile2=other)
+        else:
+            print(f"{other} is already a friend of {self}")
+    
+    def get_friend_suggestions(self):
+        all_profiles = Profile.objects.exclude(id=self.id)
+        friends = self.get_friends()
+        return all_profiles.difference(friends)
+    
+    def get_news_feed(self):
+        # Get all friends' profiles
+        friends = self.get_friends()
+        
+        # Get status messages from self and all friends
+        return StatusMessage.objects.filter(
+            profile__in=[self.id] + list(friends.values_list('id', flat=True))
+        ).order_by('-timestamp')
 
 class StatusMessage(models.Model):
     timestamp = models.DateTimeField(default=timezone.now)
@@ -36,3 +65,11 @@ class Image(models.Model):
 
     def __str__(self):
         return f"Image for {self.status_message.profile.first_name} {self.status_message.profile.last_name} ({self.timestamp})"
+    
+class Friend(models.Model):
+    profile1 = models.ForeignKey('Profile', on_delete=models.CASCADE, related_name='profile1')
+    profile2 = models.ForeignKey('Profile', on_delete=models.CASCADE, related_name='profile2')
+    timestamp = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.profile1.first_name} {self.profile1.last_name} & {self.profile2.first_name} {self.profile2.last_name}"

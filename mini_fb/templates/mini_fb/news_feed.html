@@ -1,0 +1,27 @@
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+    <h2>News Feed</h2>
+    <div class="status-actions">
+    <a href="{% url 'show_profile' profile.pk %}">Back to {{ profile.first_name }} {{ profile.last_name }}'s Profile</a>
+    </div>
+
+    <hr class="divider">
+    
+    <div class="status-messages-container">
+    {% for status in profile.get_news_feed %}
+        <div class="status-message">
+            <div class="status-header">
+                <a href="{% url 'show_profile' status.profile.pk %}">{{ status.profile.first_name }} {{ status.profile.last_name }}</a>
+                <strong>{{ status.timestamp|date:"M d, Y H:i" }}</strong>
+            </div>
+            <p>{{ status.message }}</p>
+            <div class="status-images">
+                {% for image in status.get_images %}
+                    <img src="{{ image.image_file.url }}" alt="Status Image" class="status-image">
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

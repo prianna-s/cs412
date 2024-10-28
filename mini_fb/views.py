@@ -1,4 +1,4 @@
-
+from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.views.generic import CreateView
@@ -11,8 +11,7 @@ from .forms import UpdateStatusMessageForm
 from .forms import UpdateProfileForm
 from .models import StatusMessage
 from django.urls import reverse
-
-
+from django.views import View
 class CreateProfileView(CreateView):
     model = Profile
     form_class = CreateProfileForm
@@ -77,3 +76,20 @@ class CreateStatusMessageView(CreateView):
 
     def get_success_url(self):
         return reverse('show_profile', kwargs={'pk': self.kwargs['pk']})
+    
+class CreateFriendView(View):
+    def dispatch(self, request, *args, **kwargs):
+        profile = Profile.objects.get(pk=kwargs['pk'])
+        friend = Profile.objects.get(pk=kwargs['other_pk'])
+        profile.add_friend(friend)
+        return redirect('show_profile', pk=kwargs['pk'])
+    
+class FriendSuggestionsView(DetailView):
+    model = Profile
+    template_name = 'mini_fb/friend_suggestions.html'
+    context_object_name = 'profile'
+
+class ShowNewsFeedView(DetailView):
+    model = Profile
+    template_name = 'mini_fb/news_feed.html'
+    context_object_name = 'profile'

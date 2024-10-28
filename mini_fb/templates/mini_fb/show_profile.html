@@ -27,7 +27,25 @@
     </div>
 </div>
 
+<hr class="divider">
 
+<h2>Friends</h2>
+<div class="friends-container">
+    {% for friend in profile.get_friends %}
+        <div class="friend">
+            <img src="{{ friend.profile_image_url }}" alt="{{ friend.first_name }}'s Profile Image" class="profile-image">
+            <a href="{% url 'show_profile' friend.pk %}">{{ friend.first_name }} {{ friend.last_name }}</a>
+        </div>
+    {% empty %}
+        <p class="no-friends">No friends available.</p>
+    {% endfor %}
+</div>  
+
+<hr class="divider">
+<div class="profile-actions">
+<a href="{% url 'friend_suggestions' profile.pk %}">Friend Suggestions</a>
+<a href="{% url 'news_feed' profile.pk %}">News Feed</a>
+</div>
 <hr class="divider">
 
 <h2>Status Messages</h2>
