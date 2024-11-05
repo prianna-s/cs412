@@ -72,8 +72,8 @@
             </div>
             {% if user.is_authenticated and user == profile.user %}
             <div class="status-actions">
-                <a href="{% url 'delete_status' status.pk %}" class="btn-back">Delete</a>
-                <a href="{% url 'update_status' status.pk %}" class="btn-back">Update</a>
+                <a href="{% url 'delete_status' status.pk%}" class="btn-back">Delete</a>
+                <a href="{% url 'update_status' status.pk%}" class="btn-back">Update</a>
             </div>
             {%endif%}
         </div>

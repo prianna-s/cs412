@@ -15,6 +15,7 @@ body {
     margin: 0;
 }
 
+
 /* Header Styling */
 header {
     background-color: #4f3a2d; /* Dark Coffee Brown */
@@ -25,6 +26,47 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
+}
+
+
+/* Styling for Auth Actions */
+.auth-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.auth-actions p {
+    margin: 0;
+    font-weight: bold;
+}
+
+.auth-actions a,
+.auth-actions button {
+    font-weight: bold;
+    color: #4267B2;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Hover Effect for Login Button */
+.auth-actions a:hover {
+    background-color: #ddd;
+}
+
+/* Logout Button Specific Styling */
+.auth-actions form button[type="submit"] {
+    color: #f0f0f0;
+    background-color: #d9534f; /* Red for Logout */
+}
+
+.auth-actions form button[type="submit"]:hover {
+    background-color: #c9302c;
 }
 
 header h1 {

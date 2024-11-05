@@ -4,7 +4,15 @@
     <h2>Create New Profile</h2>
     <form method="post">
         {% csrf_token %}
+        
+        <!-- Display fields from UserCreationForm -->
+        <h3>User Account Information</h3>
+        {{ user_form.as_p }}
+        
+        <!-- Display fields from CreateProfileForm -->
+        <h3>Profile Information</h3>
         {{ form.as_p }}
+        
         <button type="submit">Create Profile</button>
     </form>
 {% endblock %}
