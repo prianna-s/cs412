@@ -6,6 +6,7 @@ from django.views.generic import UpdateView
 from django.views.generic import DeleteView
 from .forms import CreateProfileForm
 from .models import Profile
+from django.contrib.auth import authenticate, login
 from .forms import CreateStatusMessageForm
 from .forms import UpdateStatusMessageForm
 from .forms import UpdateProfileForm
@@ -31,22 +32,31 @@ class CreateProfileView(CreateView):
         return context
     
     def form_valid(self, form):
-    # Recreate UserCreationForm with POST data
+        # Recreate UserCreationForm with POST data
         user_form = UserCreationForm(self.request.POST)
-    
-    # Check if both forms are valid
+        
+        # Check if both forms are valid
         if user_form.is_valid():
-            # Save UserCreationForm to create a new User
+            # Save the User form to create a new User
             user = user_form.save()
-        
-            # Attach the created user to the Profile instance
+            
+            # Attach the newly created user to the Profile instance
             form.instance.user = user
-        
-            # Save Profile form and return to superclass' form_valid method
+            
+            # Save the Profile form
+            self.object = form.save()
+            
+            # Authenticate and log in the user
+            raw_password = user_form.cleaned_data.get('password1')  # Get the password
+            user = authenticate(username=user.username, password=raw_password)
+            if user is not None:
+                login(self.request, user)  # Log in the user
+
             return super().form_valid(form)
         else:
-        # If user_form is invalid, re-render the form with errors
+            # If user_form is invalid, re-render the form with errors
             return self.form_invalid(form)
+
 
 
 class ShowAllProfilesView(ListView):
