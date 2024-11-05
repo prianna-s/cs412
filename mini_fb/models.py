@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
+from django.contrib.auth.models import User
+
 
 class Profile(models.Model):
     first_name = models.CharField(max_length=50)
@@ -8,6 +10,7 @@ class Profile(models.Model):
     city = models.CharField(max_length=100)
     email = models.EmailField()
     profile_image_url = models.URLField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

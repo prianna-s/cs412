@@ -18,11 +18,13 @@
                     <td>{{ profile.city }}</td>
                 </tr>
             </table>
-            <div class="profile-actions">
-                <a href="{% url 'update_profile' profile.pk %}" class="btn-back">Update Profile</a>
-                <a href="{% url 'create_status' profile.pk %}" class="btn-status">Post a Status</a>
+            {% if user.is_authenticated and user == profile.user %}
+                <div class="profile-actions">
+                    <a href="{% url 'update_profile'  %}" class="btn-back">Update Profile</a>
+                    <a href="{% url 'create_status'  %}" class="btn-status">Post a Status</a>
                 
-            </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -41,12 +43,18 @@
     {% endfor %}
 </div>  
 
+{% if user.is_authenticated and user == profile.user %}
+
 <hr class="divider">
 <div class="profile-actions">
-<a href="{% url 'friend_suggestions' profile.pk %}">Friend Suggestions</a>
-<a href="{% url 'news_feed' profile.pk %}">News Feed</a>
+<a href="{% url 'friend_suggestions'%}">Friend Suggestions</a>
+<a href="{% url 'news_feed' %}">News Feed</a>
 </div>
+{%endif%}
+
+
 <hr class="divider">
+
 
 <h2>Status Messages</h2>
 <div class="status-messages-container">
@@ -62,10 +70,12 @@
                     <img src="{{ image.image_file.url }}" alt="Status Image" class="status-image">
                 {% endfor %}
             </div>
+            {% if user.is_authenticated and user == profile.user %}
             <div class="status-actions">
                 <a href="{% url 'delete_status' status.pk %}" class="btn-back">Delete</a>
                 <a href="{% url 'update_status' status.pk %}" class="btn-back">Update</a>
             </div>
+            {%endif%}
         </div>
     {% empty %}
         <p class="no-status">No status messages available.</p>

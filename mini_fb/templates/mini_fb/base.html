@@ -12,9 +12,23 @@
         <h1>Mini Facebook</h1>
         <nav>
             <div class="nav-actions">
+            {% if not user.is_authenticated %}
             <a href="{% url 'create_profile' %}">Create New Profile</a>
+            {%endif%}
             <a href="{% url 'show_all_profiles' %}">View All Profiles</a>
             </div>
+
+            {% if user.is_authenticated %}
+            <p>Welcome, {{ user.username }}!</p>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+            {% else %}
+                <p>Not logged in</p>
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+
         </nav>
     </header>
     <main>
