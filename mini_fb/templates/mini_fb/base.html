@@ -18,6 +18,7 @@
             <a href="{% url 'show_all_profiles' %}">View All Profiles</a>
             </div>
 
+            <div class="auth-actions">
             {% if user.is_authenticated %}
             <p>Welcome, {{ user.username }}!</p>
             <form method="post" action="{% url 'logout' %}">
@@ -28,6 +29,7 @@
                 <p>Not logged in</p>
                 <a href="{% url 'login' %}">Login</a>
             {% endif %}
+            </div>
 
         </nav>
     </header>
