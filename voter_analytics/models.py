@@ -25,28 +25,51 @@ class Voter(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.precinct_number}"
+    
 
 def load_data():
-    file_path = os.path.join(settings.BASE_DIR, 'newton_voters.csv')
-    with open(file_path, 'r') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            Voter.objects.create(
-                last_name=row['Last Name'],
-                first_name=row['First Name'],
-                street_number=row['Residential Address - Street Number'],
-                street_name=row['Residential Address - Street Name'],
-                apartment_number=row.get('Residential Address - Apartment Number', None),
-                zip_code=row['Residential Address - Zip Code'],
-                date_of_birth=datetime.strptime(row['Date of Birth'], '%Y-%m-%d'),
-                date_of_registration=datetime.strptime(row['Date of Registration'], '%Y-%m-%d'),
-                party_affiliation=row['Party Affiliation'],
-                precinct_number=row['Precinct Number'],
-                v20state=row['v20state'] == 'True',
-                v21town=row['v21town'] == 'True',
-                v21primary=row['v21primary'] == 'True',
-                v22general=row['v22general'] == 'True',
-                v23town=row['v23town'] == 'True',
-                voter_score=int(row['voter_score']),
-            )
+    """Load voter data records from a CSV file and create Voter model instances."""
 
+    # Delete all existing Voter records
+    Voter.objects.all().delete()
+    
+    # File path to the CSV
+    file_path = os.path.join(settings.BASE_DIR, 'newton_voters.csv')
+    
+    # Open the file and discard the header
+    with open(file_path, 'r') as f:
+        headers = f.readline().strip()  # Read and ignore the header line
+
+        # Go through the file line by line
+        for line in f:
+            fields = line.strip().split(',')
+            
+            try:
+                # Create a new Voter instance using parsed fields
+                voter = Voter(
+                    last_name=fields[0],
+                    first_name=fields[1],
+                    street_number=fields[2],
+                    street_name=fields[3],
+                    apartment_number=fields[4] if fields[4] else None,
+                    zip_code=fields[5],
+                    date_of_birth=datetime.strptime(fields[6], '%Y-%m-%d'),
+                    date_of_registration=datetime.strptime(fields[7], '%Y-%m-%d'),
+                    party_affiliation=fields[8],
+                    precinct_number=fields[9],
+                    v20state=(fields[10].strip().lower() == 'true'),
+                    v21town=(fields[11].strip().lower() == 'true'),
+                    v21primary=(fields[12].strip().lower() == 'true'),
+                    v22general=(fields[13].strip().lower() == 'true'),
+                    v23town=(fields[14].strip().lower() == 'true'),
+                    voter_score=int(fields[15])
+                )
+                # Print a confirmation message and save the instance
+                print(f'Created voter: {voter}')
+                voter.save()  # Save to the database
+
+            except Exception as e:
+                # Print an error message for any issues in parsing
+                print(f"Exception occurred with fields: {fields}. Error: {e}")
+
+    print("Done loading voter data.")

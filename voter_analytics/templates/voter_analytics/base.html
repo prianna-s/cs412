@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Voter Analytics{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles_voter_analytics.css' %}">  <!-- Link to your CSS file if needed -->
+</head>
+<body>
+
+    <!-- Navigation buttons -->
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'graphs' %}">
+            <button class="filter-button">Show Graphs</button>
+        </a>
+        <a href="{% url 'voters' %}">
+            <button class="filter-button">Show Voter List</button>
+        </a>
+    </div>
+
+    <!-- Main content area -->
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

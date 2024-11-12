@@ -1,0 +1,65 @@
+{% extends 'voter_analytics/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Voter List</h1>
+    
+    <!-- Filter Form Card -->
+    <div class="filter-card">
+        <form method="get" class="filter-form">
+            {% for field in filter_form %}
+                <div class="form-group">
+                    <label>{{ field.label_tag }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="filter-button">Filter</button>
+        </form>
+    </div>
+
+    <!-- Voter Table -->
+    <table class="voter-table">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Address</th>
+                <th>Date of Birth</th>
+                <th>Party Affiliation</th>
+                <th>Voter Score</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for voter in voters %}
+            <tr>
+                <td>{{ voter.first_name }}</td>
+                <td>{{ voter.last_name }}</td>
+                <td>{{ voter.street_number }} {{ voter.street_name }}</td>
+                <td>{{ voter.date_of_birth }}</td>
+                <td>{{ voter.party_affiliation }}</td>
+                <td>{{ voter.voter_score }}</td>
+                <td><a href="{% url 'voter' voter.pk %}" class="details-link">View Details</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if is_paginated %}
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="pagination-link">First</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="pagination-link">Previous</a>
+            {% endif %}
+
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="pagination-link">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="pagination-link">Last</a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

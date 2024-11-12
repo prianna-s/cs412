@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('quotes.urls')),
     path('restaurant/', include('restaurant.urls')),  # Include restaurant app URLs
     path('mini_fb/', include('mini_fb.urls')),
+    path('voter_analytics/', include('voter_analytics.urls'))
 ] 
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
