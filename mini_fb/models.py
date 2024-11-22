@@ -11,6 +11,7 @@ class Profile(models.Model):
     email = models.EmailField()
     profile_image_url = models.URLField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    related_name="mini_fb_profile"  # Add this line
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
