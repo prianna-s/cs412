@@ -1,0 +1,10 @@
+{% extends 'project/base.html' %}
+{% block title %}Notifications{% endblock %}
+{% block content %}
+<h1>Notifications</h1>
+<ul>
+    {% for notification in profile.get_notifications %}
+    <li>{{ notification.challenge }} ({{ notification.timestamp }})</li>
+    {% endfor %}
+</ul>
+{% endblock %}

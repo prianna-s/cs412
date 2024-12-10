@@ -1,0 +1,24 @@
+{% extends 'project/base.html' %}
+
+{% block title %}Add Friend{% endblock %}
+
+{% block content %}
+<div class="add-friend-container">
+    <!-- Page Title -->
+    <h1 class="add-friend-title">Add Friend</h1>
+
+    <!-- Add Friend Form -->
+    <form method="post" class="add-friend-form">
+        {% csrf_token %}
+        
+        <!-- Form Fields -->
+        {{ form.as_p }}
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-submit">Add Friend</button>
+    </form>
+
+    <!-- Cancel Link -->
+    <a href="{% url 'news_feed' %}" class="btn btn-cancel">Cancel</a>
+</div>
+{% endblock %}

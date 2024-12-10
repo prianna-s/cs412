@@ -1,0 +1,11 @@
+{% extends 'project/base.html' %}
+{% block title %}Edit Challenge{% endblock %}
+{% block content %}
+<h1>Edit Challenge</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+</form>
+<a href="{% url 'news_feed' %}">Cancel</a>
+{% endblock %}

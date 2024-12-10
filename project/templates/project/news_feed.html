@@ -1,0 +1,43 @@
+{% extends 'project/base.html' %}
+
+{% block title %}News Feed{% endblock %}
+
+{% block content %}
+<div class="news-feed-container">
+    <!-- Page Title -->
+    <h1 class="news-feed-title">News Feed</h1>
+
+    <!-- News Feed Items -->
+    <div class="news-feed-list">
+        {% for item in feed %}
+            <div class="feed-card">
+                <!-- Two-Column Layout -->
+                <div class="feed-card-row">
+                    <!-- Photo Section -->
+                    {% if item.content_type == 'challenge' and item.image %}
+                        <img src="{{ item.image.url }}" alt="Challenge Image" class="feed-card-image">
+                    {% elif item.content_type == 'completion_post' and item.photo %}
+                        <img src="{{ item.photo.url }}" alt="Completion Post Image" class="feed-card-image">
+                    {% endif %}
+
+                    <!-- Text Section -->
+                    <div class="feed-card-text">
+                        {% if item.content_type == 'challenge' %}
+                            <h2 class="feed-card-title"><a href="{% url 'challenge_detail' item.pk %}">{{ item.title }}</a></h2>
+                            <p><strong>Assigned To:</strong> {{ item.assigned_to.user.username }}</p>
+                            <p><strong>Comments:</strong> {{ item.get_comments.count }}</p>
+                        {% elif item.content_type == 'completion_post' %}
+                            <h2 class="feed-card-title"><a href="{% url 'completion_post_detail' item.pk %}">{{ item.caption }}</a></h2>
+                            <p><strong>Completed by</strong> {{ item.challenge.assigned_to.user.username }}</p>
+                            <p><strong>Comments:</strong> {{ item.get_comments.count }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <!-- Message for Empty Feed -->
+            <p>No items in your news feed.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

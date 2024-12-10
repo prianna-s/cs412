@@ -115,7 +115,7 @@ TIME_ZONE = 'America/New_York'  # Replace with your correct timezone
 
 USE_I18N = True
 
-LOGIN_URL = '/mini_fb/login/'
+LOGIN_URL = '/project/login/'
 
 USE_TZ = True
 

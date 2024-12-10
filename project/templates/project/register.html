@@ -1,0 +1,15 @@
+{% extends 'project/base.html' %}
+{% block title %}Create Profile{% endblock %}
+{% block content %}
+<h1>Create Profile</h1>
+<form method="post">
+    {% csrf_token %}
+    <h2>Account Information</h2>
+    {{ user_form.as_p }}  <!-- Render UserCreationForm fields -->
+
+    <h2>Profile Information</h2>
+    {{ form.as_p }}  <!-- Render CreateProfileForm fields -->
+
+    <button type="submit">Create Profile</button>
+</form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2>All Profiles</h2>
+<div class="profile-container">
+    {% for profile in profiles %}
+    <div class="profile-card">
+        <a href="{% url 'view_profile' profile.pk %}">
+        <img src="{{ profile.profile_image_url }}" alt="{{ profile.first_name }}'s Profile Image" class="profile-image">
+        <p class="profile-name">{{ profile.first_name }} {{ profile.last_name }}</p>
+        <p class="profile-city">{{ profile.city }}</p>
+    </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

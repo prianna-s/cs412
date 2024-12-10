@@ -1,0 +1,42 @@
+{% extends 'project/base.html' %}
+
+{% block title %}Completion Post Detail{% endblock %}
+
+{% block content %}
+<h1>COMPLETED: {{ completion_post.challenge.title }}</h1>
+<p><strong>Posted By:</strong> {{ completion_post.challenge.assigned_to.user.username }}</p>
+<p><strong>Posted On:</strong> {{ completion_post.created_at|date:"F j, Y, g:i a" }}</p>
+
+{% if completion_post.photo %}
+    <img src="{{ completion_post.photo.url }}" alt="Completion Post Image" style="max-width:100%; height:auto; border-radius:10px; margin:20px 0;">
+{% else %}
+    <p>No image attached for this completion post.</p>
+{% endif %}
+
+<p><strong>Caption:</strong> {{ completion_post.caption }}</p>
+<p><strong>Likes:</strong> {{ completion_post.likes.count }}</p>
+
+<h2>Comments</h2>
+<ul>
+    {% for comment in completion_post.get_comments %}
+        <li>
+            <strong>{{ comment.profile.user.username }}:</strong> {{ comment.message }}
+            <em>({{ comment.timestamp|date:"F j, Y, g:i a" }})</em>
+            
+        </li>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+</ul>
+
+<h2>Add a Comment</h2>
+<form method="post" action="{% url 'create_comment' %}">
+    {% csrf_token %}
+    <textarea name="message" rows="4" placeholder="Write your comment..." required></textarea>
+    <input type="hidden" name="completion_post_id" value="{{ completion_post.id }}">
+    <button type="submit">Post Comment</button>
+</form>
+
+<a href="{% url 'challenge_detail' completion_post.challenge.pk %}">Back to Challenge</a>
+<a href="{% url 'news_feed' %}">Back to News Feed</a>
+{% endblock %}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Challenges App{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles_project.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="{% url 'news_feed' %}">News Feed</a>
+                <a href="{% url 'notifications' %}">Notifications</a>
+                <a href="{% url 'all_users' %}">View Profiles</a>
+                <a href="{% url 'create_challenge' %}">Create Challenge</a>
+            </div>
+            <div class="nav-right">
+                {% if user.is_authenticated %}
+                    <span>Logged in as {{ user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                {% else %}
+                    <span>Not logged in</span>
+                    <a href="{% url 'register' %}" class="button">Sign Up</a>
+                    <a href="{% url 'login' %}" class="button">Login</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
+

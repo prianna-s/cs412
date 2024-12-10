@@ -1,0 +1,33 @@
+{% extends 'project/base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<h1>{{ profile.user.username }}'s Profile</h1>
+<p>Name: {{ profile.first_name }} {{ profile.last_name }}</p>
+<p>Email: {{ profile.email }}</p>
+<p>Bio: {{ profile.bio }}</p>
+
+{% if profile.profile_picture %}
+<img src="{{ profile.profile_picture.url }}" alt="Profile Picture">
+{% endif %}
+
+<h2>Friends</h2>
+<ul>
+    {% for friend in profile.get_friends %}
+    <li><a href="{% url 'view_profile' friend.pk %}">{{ friend.user.username }}</a></li>
+    {% empty %}
+    <p>No friends yet.</p>
+    {% endfor %}
+</ul>
+
+{% if profile.user != request.user and profile not in logged_in_profile.get_friends %}
+    <form method="post" action="{% url 'add_friend' logged_in_profile.pk profile.pk %}">
+        {% csrf_token %}
+        <button type="submit">Add Friend</button>
+    </form>
+{% endif %}
+
+
+{% if profile.user == request.user %}
+    <a href="{% url 'edit_profile' profile.pk %}">Edit Profile</a>
+{% endif %}
+{% endblock %}

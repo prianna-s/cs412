@@ -1,0 +1,10 @@
+{% extends 'project/base.html' %}
+{% block title %}Complete Challenge{% endblock %}
+{% block content %}
+<h1>Complete Challenge</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Post</button>
+</form>
+{% endblock %}

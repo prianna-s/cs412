@@ -1,0 +1,52 @@
+{% extends 'project/base.html' %}
+
+{% block title %}Challenge Detail{% endblock %}
+
+{% block content %}
+<h1>{{ challenge.title }}</h1>
+<p><strong>Description:</strong> {{ challenge.description }}</p>
+<p><strong>Created By:</strong> {{ challenge.created_by.user.username }}</p>
+<p><strong>Assigned To:</strong> {{ challenge.assigned_to.user.username }}</p>
+<p><strong>Due Date:</strong> {{ challenge.due_date }}</p>
+<p><strong>Status:</strong> {{ challenge.status }}</p>
+
+<!-- Display the Challenge Image -->
+{% if challenge.image %}
+    <img src="{{ challenge.image.url }}" alt="Challenge Image" style="max-width:100%; height:auto; border-radius:10px; margin:20px 0;">
+{% else %}
+    <p>No image associated with this challenge.</p>
+{% endif %}
+
+<!-- Button to Create Completion Post (Visible to Assigned User) -->
+{% if user.userprofile == challenge.assigned_to %}
+    <a href="{% url 'create_completion_post' %}?challenge_id={{ challenge.id }}" class="btn btn-primary" style="margin-top: 20px;">
+        Mark as Completed
+    </a>
+{% endif %}
+
+<!-- Comments Section -->
+<h2>Comments</h2>
+<ul>
+    {% for comment in comments %}
+        <li>
+            <strong>{{ comment.profile.user.username }}:</strong> {{ comment.message }}
+            <em>({{ comment.timestamp|date:"F j, Y, g:i a" }})</em>
+            {% if is_assigned_user %}
+                <a href="{% url 'delete_comment' comment.pk %}" style="color: red;">Delete</a>
+            {% endif %}
+        </li>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+</ul>
+
+<h2>Add a Comment</h2>
+<form method="post" action="{% url 'create_comment' %}">
+    {% csrf_token %}
+    <textarea name="message" rows="4" placeholder="Write your comment..." required></textarea>
+    <input type="hidden" name="challenge_id" value="{{ challenge.id }}">
+    <button type="submit">Post Comment</button>
+</form>
+
+<a href="{% url 'news_feed' %}">Back to News Feed</a>
+{% endblock %}
