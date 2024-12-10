@@ -18,7 +18,7 @@
             </div>
             <div class="nav-right">
                 {% if user.is_authenticated %}
-                    <span>Logged in as {{ user.username }}</span>
+                <span>Logged in as {{ user.username }}</span>
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
                         <button type="submit">Logout</button>

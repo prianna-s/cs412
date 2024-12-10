@@ -1,6 +1,13 @@
 {% extends 'project/base.html' %}
 
+{% block title %}Logged Out{% endblock %}
+
 {% block content %}
-    <h2>You have successfully logged out.</h2>
-    <a href="{% url 'login' %}">Log in again</a>
+<div class="logout-container">
+    <!-- Logout Confirmation Message -->
+    <h2 class="logout-message">You have successfully logged out.</h2>
+
+    <!-- Log in Again Button -->
+    <a href="{% url 'login' %}" class="btn btn-login-again">Log In Again</a>
+</div>
 {% endblock %}

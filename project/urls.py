@@ -37,8 +37,15 @@ urlpatterns = [
     path('', views.ShowUsersView.as_view(), name='all_users'),  # All profiles
     path('notifications/', views.NotificationView.as_view(), name='notifications'),  # Notifications
 
+    # Authentication URLs
     path('register/', views.CreateUserProfileView.as_view(), name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='project/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='project/logout.html'), name='logout'),
+
+    # Helper URLs to update challenge status and like posts
     path('challenges/<int:pk>/update_status/', update_challenge_status, name='update_challenge_status'),
+    path('completion-posts/<int:pk>/like/', views.like_post, name='like_post_completion'),
+    path('challenges/<int:pk>/like/', views.like_post, name='like_post_challenge'),
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

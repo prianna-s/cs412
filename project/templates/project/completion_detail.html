@@ -3,40 +3,95 @@
 {% block title %}Completion Post Detail{% endblock %}
 
 {% block content %}
-<h1>COMPLETED: {{ completion_post.challenge.title }}</h1>
-<p><strong>Posted By:</strong> {{ completion_post.challenge.assigned_to.user.username }}</p>
-<p><strong>Posted On:</strong> {{ completion_post.created_at|date:"F j, Y, g:i a" }}</p>
+<div class="completion-detail-container">
+    <!-- Title -->
+    <h1 class="completion-title">COMPLETED: {{ completion_post.challenge.title }}</h1>
 
-{% if completion_post.photo %}
-    <img src="{{ completion_post.photo.url }}" alt="Completion Post Image" style="max-width:100%; height:auto; border-radius:10px; margin:20px 0;">
-{% else %}
+    <!-- Profile Cards Section -->
+    <div class="profile-cards-container">
+        <!-- Assigned To Profile Card -->
+        <div class="profile-card">
+            {% if completion_post.challenge.assigned_to.profile_picture %}
+                <img src="{{ completion_post.challenge.assigned_to.profile_picture.url }}" alt="{{ completion_post.challenge.assigned_to.user.username }}'s Profile Picture" class="profile-card-image">
+            {% else %}
+                <div class="profile-card-image-placeholder"></div>
+            {% endif %}
+            <div class="profile-card-info">
+                <p class="profile-name">{{ completion_post.challenge.assigned_to.first_name }} {{ completion_post.challenge.assigned_to.last_name }}</p>
+                <p class="profile-username">@{{ completion_post.challenge.assigned_to.user.username }}</p>
+            </div>
+        </div>
+
+        <p class="completion-action-text">DEFEATED</p>
+
+        <!-- Created By Profile Card -->
+        <div class="profile-card">
+            {% if completion_post.challenge.created_by.profile_picture %}
+                <img src="{{ completion_post.challenge.created_by.profile_picture.url }}" alt="{{ completion_post.challenge.created_by.user.username }}'s Profile Picture" class="profile-card-image">
+            {% else %}
+                <div class="profile-card-image-placeholder"></div>
+            {% endif %}
+            <div class="profile-card-info">
+                <p class="profile-name">{{ completion_post.challenge.created_by.first_name }} {{ completion_post.challenge.created_by.last_name }}</p>
+                <p class="profile-username">@{{ completion_post.challenge.created_by.user.username }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Caption Section -->
+    <p class="completion-caption">Here’s what {{ completion_post.challenge.assigned_to.first_name }} has to say: "{{ completion_post.caption }}"</p>
+
+    <!-- Completion Post Image -->
+    {% if completion_post.photo %}
+    <div class="completion-image-container">
+        <img src="{{ completion_post.photo.url }}" alt="Completion Post Image" class="completion-image">
+    </div>
+    {% else %}
     <p>No image attached for this completion post.</p>
-{% endif %}
+    {% endif %}
 
-<p><strong>Caption:</strong> {{ completion_post.caption }}</p>
-<p><strong>Likes:</strong> {{ completion_post.likes.count }}</p>
+    
+    <!-- Add Like Form -->
+    <div class="like-section">
+        <form method="post" action="{% url 'like_post_completion' completion_post.id %}">
+            {% csrf_token %}
+            {% if user in post.likes.all %}
+                <button type="submit" class="btn btn-like unlike-btn">Unlike</button>
+            {% else %}
+                <button type="submit" class="btn btn-like like-btn">Like</button>
+            {% endif %}
+        </form>
+        <span>{{ post.total_likes }} Likes</span>
+    </div>
 
-<h2>Comments</h2>
-<ul>
-    {% for comment in completion_post.get_comments %}
-        <li>
-            <strong>{{ comment.profile.user.username }}:</strong> {{ comment.message }}
-            <em>({{ comment.timestamp|date:"F j, Y, g:i a" }})</em>
-            
-        </li>
-    {% empty %}
-        <p>No comments yet.</p>
-    {% endfor %}
-</ul>
+    <!-- Comments Section -->
+    <div class="comments-section">
+        <h2>Comments</h2>
+        <ul class="comments-list">
+            {% for comment in completion_post.get_comments %}
+            <li class="comment-item">
+                <strong>{{ comment.profile.user.username }}:</strong> {{ comment.message }}
+                <em>({{ comment.timestamp|date:"F j, Y, g:i a" }})</em>
+            </li>
+            {% empty %}
+            <p>No comments yet.</p>
+            {% endfor %}
+        </ul>
+    </div>
 
-<h2>Add a Comment</h2>
-<form method="post" action="{% url 'create_comment' %}">
-    {% csrf_token %}
-    <textarea name="message" rows="4" placeholder="Write your comment..." required></textarea>
-    <input type="hidden" name="completion_post_id" value="{{ completion_post.id }}">
-    <button type="submit">Post Comment</button>
-</form>
+    <!-- Add Comment Section -->
+    <div class="add-comment-section">
+        <h2>Add a Comment</h2>
+        <form method="post" action="{% url 'create_comment' %}" class="comment-form">
+            {% csrf_token %}
+            <textarea name="message" rows="4" placeholder="Write your comment..." required></textarea>
+            <input type="hidden" name="completion_post_id" value="{{ completion_post.id }}">
+            <button type="submit" class="btn btn-submit">Post Comment</button>
+        </form>
+    </div>
 
-<a href="{% url 'challenge_detail' completion_post.challenge.pk %}">Back to Challenge</a>
-<a href="{% url 'news_feed' %}">Back to News Feed</a>
+    <!-- Back Links -->
+    <a href="{% url 'challenge_detail' completion_post.challenge.pk %}" class="btn btn-back">Back to Challenge</a>
+    <a href="{% url 'news_feed' %}" class="btn btn-back">Back to News Feed</a>
+</div>
 {% endblock %}

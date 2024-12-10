@@ -1,10 +1,37 @@
 {% extends 'project/base.html' %}
+
 {% block title %}Notifications{% endblock %}
+
 {% block content %}
-<h1>Notifications</h1>
-<ul>
-    {% for notification in profile.get_notifications %}
-    <li>{{ notification.challenge }} ({{ notification.timestamp }})</li>
-    {% endfor %}
-</ul>
+<div class="notifications-container">
+    <h1 class="notifications-title">Notifications</h1>
+
+    <div class="notifications-list">
+        {% for notification in notifications %}
+        <div class="notification-card">
+            <!-- Challenger's Profile Picture -->
+            <div class="notification-profile">
+                {% if notification.challenge.created_by.profile_picture %}
+                <img src="{{ notification.challenge.created_by.profile_picture.url }}" alt="{{ notification.challenge.created_by.user.username }}'s Profile Picture" class="profile-image">
+                {% else %}
+                <div class="profile-image-placeholder"></div>
+                {% endif %}
+            </div>
+
+            <!-- Notification Details -->
+            <div class="notification-details">
+                <p>
+                    <strong>{{ notification.challenge.created_by.user.username }}</strong> challenged you to 
+                    <a href="{% url 'challenge_detail' notification.challenge.pk %}" class="challenge-link">
+                        {{ notification.challenge.title }}
+                    </a>
+                </p>
+                <em class="notification-timestamp">{{ notification.timestamp|date:"F j, Y, g:i a" }}</em>
+            </div>
+        </div>
+        {% empty %}
+        <p class="no-notifications">No notifications yet.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

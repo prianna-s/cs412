@@ -1,33 +1,123 @@
 {% extends 'project/base.html' %}
-{% block title %}Profile{% endblock %}
+
+{% block title %}{{ profile.user.username }}'s Profile{% endblock %}
+
 {% block content %}
-<h1>{{ profile.user.username }}'s Profile</h1>
-<p>Name: {{ profile.first_name }} {{ profile.last_name }}</p>
-<p>Email: {{ profile.email }}</p>
-<p>Bio: {{ profile.bio }}</p>
+<div class="profile-container">
 
-{% if profile.profile_picture %}
-<img src="{{ profile.profile_picture.url }}" alt="Profile Picture">
-{% endif %}
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="profile-picture">
+            {% if profile.profile_picture %}
+            <img src="{{ profile.profile_picture.url }}" alt="{{ profile.user.username }}'s Profile Picture" class="circle-profile-photo">
+            {% else %}
+            <div class="circle-profile-placeholder"></div>
+            {% endif %}
+        </div>
+        <div class="profile-details">
+            <h1 class="profile-name">{{ profile.first_name }} {{ profile.last_name }}</h1>
+            <p class="profile-email">{{ profile.email }}</p>
+            <p class="profile-bio">{{ profile.bio }}</p>
+        </div>
+        <!-- Add Friend Button -->
+        <div class="profile-actions">
+            {% if profile.user != request.user and profile not in logged_in_profile.get_friends %}
+            <form method="post" action="{% url 'add_friend' logged_in_profile.pk profile.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-add-friend">Add Friend</button>
+            </form>
+            {% endif %}
+            {% if profile.user == request.user %}
+            <a href="{% url 'edit_profile' profile.pk %}" class="btn btn-edit-profile">Edit Profile</a>
+            {% endif %}
+        </div>
+    </div>
 
-<h2>Friends</h2>
-<ul>
-    {% for friend in profile.get_friends %}
-    <li><a href="{% url 'view_profile' friend.pk %}">{{ friend.user.username }}</a></li>
-    {% empty %}
-    <p>No friends yet.</p>
-    {% endfor %}
-</ul>
+    <!-- Profile Score -->
+    <div class="profile-score">
+        <h2>{{ profile.first_name }}'s Score: {{ profile.calculate_score }}</h2>
+        <p>The score is based on challenges completed, time taken to complete them, and likes received. The higher the better!</p>
+    </div>    
 
-{% if profile.user != request.user and profile not in logged_in_profile.get_friends %}
-    <form method="post" action="{% url 'add_friend' logged_in_profile.pk profile.pk %}">
-        {% csrf_token %}
-        <button type="submit">Add Friend</button>
-    </form>
-{% endif %}
+    <!-- Completion Posts Section -->
+    <div class="completion-posts">
+        <h2>Completion Posts</h2>
+        <ul class="completion-list">
+            {% for post in completion_posts %}
+            <li class="completion-card">
+                {% if post.photo %}
+                <img src="{{ post.photo.url }}" alt="Completion Post Image" class="completion-image">
+                {% endif %}
+                <div class="completion-info">
+                    <a href="{% url 'completion_post_detail' post.pk %}">
+                        <strong>COMPLETED: {{ post.challenge.title }}</strong>
+                    </a>
+                    <p><strong>Completed On:</strong> {{ post.created_at|date:"F j, Y, g:i a" }}</p>
+                    <p><strong>Time Taken:</strong> {{ post.time_taken }}</p>
+                </div>
+            </li>
+            {% empty %}
+            <li>No completion posts available.</li>
+            {% endfor %}
+        </ul>
+    </div>
 
+    <!-- Filtered Challenges Section -->
+    <div class="filter-container">
+        <h2>Filter Challenges</h2>
+        <form method="get" class="filter-form">
+            {{ filter_form.as_p }}
+            <button type="submit" class="btn btn-filter">Apply Filters</button>
+        </form>
+    </div>
 
-{% if profile.user == request.user %}
-    <a href="{% url 'edit_profile' profile.pk %}">Edit Profile</a>
-{% endif %}
+    <div class="challenge-list">
+        <h2>Filtered Challenges</h2>
+        <ul>
+            {% for challenge in filtered_challenges %}
+            <li class="challenge-card">
+                {% if challenge.image %}
+                <img src="{{ challenge.image.url }}" alt="Challenge Image" class="challenge-image">
+                {% endif %}
+                <div class="challenge-info">
+                    <a href="{% url 'challenge_detail' challenge.pk %}">
+                        <strong>{{ challenge.title }}</strong>
+                    </a>
+                    <p>{{ challenge.status }} - Due: {{ challenge.due_date }}</p>
+                    <p>{{ challenge.get_comments.count }} Comments</p>
+                    <span class="challenge-label">
+                       
+                        Challenged By {{ challenge.created_by.user.username }} 
+                        
+                    </span>
+                </div>
+            </li>
+            {% empty %}
+            <li>No challenges match your criteria.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Friends Section -->
+    <div class="profile-friends">
+        <h2>Friends</h2>
+        <div class="friend-cards">
+            {% for friend in profile.get_friends %}
+            <div class="friend-card">
+                <a href="{% url 'view_profile' friend.pk %}">
+                    {% if friend.profile_picture %}
+                    <img src="{{ friend.profile_picture.url }}" alt="{{ friend.user.username }}'s Profile Picture" class="friend-photo">
+                    {% else %}
+                    <div class="friend-photo-placeholder"></div>
+                    {% endif %}
+                    <p>{{ friend.first_name }} {{ friend.last_name }}</p>
+                    <p class="friend-username">@{{ friend.user.username }}</p>
+                </a>
+            </div>
+            {% empty %}
+            <p>No friends yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}

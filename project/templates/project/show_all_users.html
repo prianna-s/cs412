@@ -1,16 +1,43 @@
 {% extends 'project/base.html' %}
 
 {% block content %}
-<h2>All Profiles</h2>
-<div class="profile-container">
-    {% for profile in profiles %}
-    <div class="profile-card">
-        <a href="{% url 'view_profile' profile.pk %}">
-        <img src="{{ profile.profile_image_url }}" alt="{{ profile.first_name }}'s Profile Image" class="profile-image">
-        <p class="profile-name">{{ profile.first_name }} {{ profile.last_name }}</p>
-        <p class="profile-city">{{ profile.city }}</p>
-    </a>
+<div class="show-users-container">
+    <!-- Page Title -->
+    <h2>All Profiles</h2>
+
+    <!-- User Search Form -->
+    <div class="search-form-container">
+        <form method="get" action="{% url 'all_users' %}" class="search-form">
+            <input type="text" name="q" placeholder="Search users by name..." value="{{ request.GET.q|default_if_none:'' }}" class="search-input">
+            <button type="submit" class="btn btn-search">Search</button>
+        </form>
     </div>
-    {% endfor %}
+
+    <!-- Profiles Grid -->
+    <div class="profiles-grid">
+        {% for profile in profiles %}
+        <div class="profile-card">
+            <!-- Profile Link -->
+            <a href="{% url 'view_profile' profile.pk %}" class="profile-link">
+               
+                <!-- Profile Image or Placeholder -->
+                {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" alt="{{ profile.first_name }}'s Profile Image" class="profile-image">
+                {% else %}
+                <div class="profile-placeholder">No Image</div>
+                {% endif %}
+                <br\>
+                <!-- Profile Info -->
+                <div class="profile-info">
+                    <p class="profile-name">{{ profile.first_name }} {{ profile.last_name }}</p>
+                    <p class="profile-username">@{{ profile.user.username }}</p>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <p>No profiles found.</p>
+        {% endfor %}
+    </div>
+    
 </div>
 {% endblock %}

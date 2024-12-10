@@ -3,50 +3,118 @@
 {% block title %}Challenge Detail{% endblock %}
 
 {% block content %}
-<h1>{{ challenge.title }}</h1>
-<p><strong>Description:</strong> {{ challenge.description }}</p>
-<p><strong>Created By:</strong> {{ challenge.created_by.user.username }}</p>
-<p><strong>Assigned To:</strong> {{ challenge.assigned_to.user.username }}</p>
-<p><strong>Due Date:</strong> {{ challenge.due_date }}</p>
-<p><strong>Status:</strong> {{ challenge.status }}</p>
+<div class="challenge-detail-container">
+    <!-- Page Title -->
+    <h1 class="challenge-title">{{ challenge.title }}</h1>
 
-<!-- Display the Challenge Image -->
-{% if challenge.image %}
-    <img src="{{ challenge.image.url }}" alt="Challenge Image" style="max-width:100%; height:auto; border-radius:10px; margin:20px 0;">
-{% else %}
+    <!-- Profile Cards Section -->
+    <div class="profile-cards-container">
+        <!-- Created By Profile Card -->
+        <div class="profile-card">
+            {% if challenge.created_by.profile_picture %}
+                <img src="{{ challenge.created_by.profile_picture.url }}" alt="{{ challenge.created_by.user.username }}'s Profile Picture" class="profile-card-image">
+            {% else %}
+                <div class="profile-card-image-placeholder"></div>
+            {% endif %}
+            <div class="profile-card-info">
+                <p class="profile-name">{{ challenge.created_by.first_name }} {{ challenge.created_by.last_name }}</p>
+                <p class="profile-username">@{{ challenge.created_by.user.username }}</p>
+            </div>
+        </div>
+
+        <p class="challenge-action-text">IS CHALLENGING</p>
+
+        <!-- Assigned To Profile Card -->
+        <div class="profile-card">
+            {% if challenge.assigned_to.profile_picture %}
+                <img src="{{ challenge.assigned_to.profile_picture.url }}" alt="{{ challenge.assigned_to.user.username }}'s Profile Picture" class="profile-card-image">
+            {% else %}
+                <div class="profile-card-image-placeholder"></div>
+            {% endif %}
+            <div class="profile-card-info">
+                <p class="profile-name">{{ challenge.assigned_to.first_name }} {{ challenge.assigned_to.last_name }}</p>
+                <p class="profile-username">@{{ challenge.assigned_to.user.username }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Challenge Description -->
+    <p class="challenge-description">TO "{{ challenge.description }}"</p>
+    <p class="challenge-description">Current Status: {{ challenge.status }}</p>
+    <p class="challenge-action-text">DUE DATE: {{ challenge.due_date }}</p>
+    {% if challenge.is_completed %}
+    <p class="challenge-action-text">COMPLETED ON {{ challenge.completed_on }} </p>
+    {% endif %}
+
+    <!-- Challenge Image -->
+    {% if challenge.image %}
+    <div class="challenge-image-container">
+        <img src="{{ challenge.image.url }}" alt="Challenge Image" class="challenge-image">
+    </div>
+    {% else %}
     <p>No image associated with this challenge.</p>
-{% endif %}
+    {% endif %}
 
-<!-- Button to Create Completion Post (Visible to Assigned User) -->
-{% if user.userprofile == challenge.assigned_to %}
-    <a href="{% url 'create_completion_post' %}?challenge_id={{ challenge.id }}" class="btn btn-primary" style="margin-top: 20px;">
+    <!-- Button to Mark Challenge as Completed -->
+    {% if is_assigned_user %}
+    {% if not challenge.is_completed %}
+    <a href="{% url 'create_completion_post' %}?challenge_id={{ challenge.id }}" class="btn btn-complete">
         Mark as Completed
     </a>
-{% endif %}
+    {% endif %}
+    {% endif %}
 
-<!-- Comments Section -->
-<h2>Comments</h2>
-<ul>
-    {% for comment in comments %}
-        <li>
-            <strong>{{ comment.profile.user.username }}:</strong> {{ comment.message }}
-            <em>({{ comment.timestamp|date:"F j, Y, g:i a" }})</em>
-            {% if is_assigned_user %}
-                <a href="{% url 'delete_comment' comment.pk %}" style="color: red;">Delete</a>
+    <!-- Button to Edit Challenge (Visible to Creator) -->
+    {% if user == challenge.created_by.user %}
+    <a href="{% url 'update_challenge' challenge.id %}" class="btn btn-edit">
+        Edit Challenge
+    </a>
+    {% endif %}
+
+    <!-- Comments Section -->
+    <div class="comments-section">
+        <h2>Comments</h2>
+        <ul class="comments-list">
+            {% for comment in comments %}
+            <li class="comment-item">
+                <strong>{{ comment.profile.user.username }}:</strong> {{ comment.message }}
+                <em>({{ comment.timestamp|date:"F j, Y, g:i a" }})</em>
+                {% if is_assigned_user %}
+                <a href="{% url 'delete_comment' comment.pk %}" class="btn btn-delete">Delete</a>
+                {% endif %}
+            </li>
+            {% empty %}
+            <p>No comments yet.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Add Like Form -->
+    <div class="like-section">
+        <form method="post" action="{% url 'like_post_challenge' challenge.id %}">
+            {% csrf_token %}
+            {% if user in challenge.likes.all %}
+                <button type="submit" class="btn btn-like unlike-btn">Unlike</button>
+            {% else %}
+                <button type="submit" class="btn btn-like like-btn">Like</button>
             {% endif %}
-        </li>
-    {% empty %}
-        <p>No comments yet.</p>
-    {% endfor %}
-</ul>
+        </form>
+        <span>{{ challenge.total_likes }} Likes</span>
+    </div>
+    
 
-<h2>Add a Comment</h2>
-<form method="post" action="{% url 'create_comment' %}">
-    {% csrf_token %}
-    <textarea name="message" rows="4" placeholder="Write your comment..." required></textarea>
-    <input type="hidden" name="challenge_id" value="{{ challenge.id }}">
-    <button type="submit">Post Comment</button>
-</form>
+    <!-- Add Comment Section -->
+    <div class="add-comment-section">
+        <h2>Add a Comment</h2>
+        <form method="post" action="{% url 'create_comment' %}" class="comment-form">
+            {% csrf_token %}
+            <textarea name="message" rows="4" placeholder="Write your comment..." required></textarea>
+            <input type="hidden" name="challenge_id" value="{{ challenge.id }}">
+            <button type="submit" class="btn btn-submit">Post Comment</button>
+        </form>
+    </div>
 
-<a href="{% url 'news_feed' %}">Back to News Feed</a>
+    <!-- Back to News Feed Link -->
+    <a href="{% url 'news_feed' %}" class="btn btn-back">Back to News Feed</a>
+</div>
 {% endblock %}

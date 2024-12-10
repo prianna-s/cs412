@@ -27,8 +27,8 @@
                             <p><strong>Assigned To:</strong> {{ item.assigned_to.user.username }}</p>
                             <p><strong>Comments:</strong> {{ item.get_comments.count }}</p>
                         {% elif item.content_type == 'completion_post' %}
-                            <h2 class="feed-card-title"><a href="{% url 'completion_post_detail' item.pk %}">{{ item.caption }}</a></h2>
-                            <p><strong>Completed by</strong> {{ item.challenge.assigned_to.user.username }}</p>
+                            <h2 class="feed-card-title"><a href="{% url 'completion_post_detail' item.pk %}"> "{{ item.challenge.title }}" Completed By {{ item.challenge.assigned_to.user.username }}</a></h2>
+                            <p><strong>Liked by</strong> {{ item.total_likes }}</p>
                             <p><strong>Comments:</strong> {{ item.get_comments.count }}</p>
                         {% endif %}
                     </div>

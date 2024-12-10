@@ -1,11 +1,27 @@
 {% extends 'project/base.html' %}
+
 {% block title %}Edit Challenge{% endblock %}
+
 {% block content %}
-<h1>Edit Challenge</h1>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Changes</button>
-</form>
-<a href="{% url 'news_feed' %}">Cancel</a>
+<div class="form-container">
+    <h1 class="form-title">Edit Challenge</h1>
+    <form method="post" enctype="multipart/form-data" class="challenge-edit-form">
+        {% csrf_token %}
+        
+        <!-- Challenge Edit Form Fields -->
+        <fieldset class="form-section">
+            <legend>Challenge Details</legend>
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+        </fieldset>
+        
+        <!-- Form Actions -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="{% url 'news_feed' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
 {% endblock %}
+

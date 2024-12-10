@@ -1,10 +1,25 @@
 {% extends 'project/base.html' %}
+
 {% block title %}Complete Challenge{% endblock %}
+
 {% block content %}
-<h1>Complete Challenge</h1>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Post</button>
-</form>
+<div class="form-container">
+    <h1 class="form-title">Complete Challenge</h1>
+    <form method="post" enctype="multipart/form-data" class="completion-form">
+        {% csrf_token %}
+        
+        <!-- Completion Form Fields -->
+        <fieldset class="form-section">
+            <legend>Completion Details</legend>
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+        </fieldset>
+        
+        <!-- Submit Button -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Post</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
