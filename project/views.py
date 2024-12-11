@@ -21,7 +21,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
 
-class ViewProfile(DetailView):
+class ViewProfile(LoginRequiredMixin, DetailView):
     # View to display the user's profile. Includes feature to filter the user's challenges and completion posts.
     model = UserProfile
     template_name = 'project/profile_detail.html'
