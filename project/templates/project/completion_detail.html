@@ -55,13 +55,13 @@
     <div class="like-section">
         <form method="post" action="{% url 'like_post_completion' completion_post.id %}">
             {% csrf_token %}
-            {% if user in post.likes.all %}
+            {% if user in completion_post.likes.all %}
                 <button type="submit" class="btn btn-like unlike-btn">Unlike</button>
             {% else %}
                 <button type="submit" class="btn btn-like like-btn">Like</button>
             {% endif %}
         </form>
-        <span>{{ post.total_likes }} Likes</span>
+        <span>{{ completion_post.total_likes }} Likes</span>
     </div>
 
     <!-- Comments Section -->
